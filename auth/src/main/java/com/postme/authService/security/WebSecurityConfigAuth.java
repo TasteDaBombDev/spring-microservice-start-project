@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class WebSecurityConfigAuth extends WebSecurityConfigurerAdapter {
 
     protected ArrayList<String> patternsToIgnore = new ArrayList<>();

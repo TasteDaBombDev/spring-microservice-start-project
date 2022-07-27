@@ -69,11 +69,11 @@ public class AuthService {
 
     public ResponseEntity<?> register(RegisterRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity.badRequest().body(new Response(true, null, "Error: Username is already taken!"));
+            return ResponseEntity.badRequest().body(new Response(false, null, "Error: Username is already taken!"));
         }
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity.badRequest().body(new Response(true, null, "Error: Email is already in use!"));
+            return ResponseEntity.badRequest().body(new Response(false, null, "Error: Email is already in use!"));
         }
 
         User user = new User(signUpRequest.getUsername(),
@@ -88,18 +88,14 @@ public class AuthService {
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
         } else {
-            switch (role) {
-                case "admin":
-                    Role adminRole = roleRepository.findByName(UserRolesEnum.ROLE_ADMIN)
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                    roles.add(adminRole);
-
-                    break;
-
-                default:
-                    Role userRole = roleRepository.findByName(UserRolesEnum.ROLE_USER)
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                    roles.add(userRole);
+            if ("admin".equals(role)) {
+                Role adminRole = roleRepository.findByName(UserRolesEnum.ROLE_ADMIN)
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roles.add(adminRole);
+            } else {
+                Role userRole = roleRepository.findByName(UserRolesEnum.ROLE_USER)
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roles.add(userRole);
             }
         }
 
@@ -113,5 +109,15 @@ public class AuthService {
         ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .body(new Response(true, null, "You've been signed out!"));
+    }
+
+    public ResponseEntity<?> getUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails userDetails) {
+            return ResponseEntity.ok(new UserResource(true, userDetails, "User found"));
+        } else {
+            return ResponseEntity.ok(new UserResource(false, null, "User not authenticated"));
+        }
     }
 }

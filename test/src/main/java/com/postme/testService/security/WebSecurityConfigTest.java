@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true)
 @Order(101)
 public class WebSecurityConfigTest extends WebSecurityConfigAuth {
 

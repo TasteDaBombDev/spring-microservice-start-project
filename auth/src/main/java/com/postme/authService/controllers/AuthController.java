@@ -1,10 +1,13 @@
 package com.postme.authService.controllers;
 
+import com.postme.authService.models.enums.UserRolesEnum;
 import com.postme.authService.models.requests.LoginRequest;
 import com.postme.authService.models.requests.RegisterRequest;
 import com.postme.authService.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -37,4 +40,8 @@ public class AuthController {
         return authService.logout();
     }
 
+    @GetMapping("/user")
+    public ResponseEntity<?> getUser() {
+        return authService.getUser();
+    }
 }
