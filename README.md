@@ -1,3 +1,5 @@
+This project is a kickoff starting point for a microservice apporach for Spring Framework. It is not fully updated and some bits of it are subject to rewriting (an example is the role management which can be extended to permission based management or the auth section which can have a different apporach).
+
 # Prerequisites
 
 You need java 16 to run this project.
