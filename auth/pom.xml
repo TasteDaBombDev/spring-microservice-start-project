@@ -11,7 +11,17 @@
 
     <artifactId>auth</artifactId>
 
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
+
     <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -19,8 +29,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <groupId>com.postme</groupId>
+            <artifactId>coreAuthorisation</artifactId>
+            <version>1.0</version>
         </dependency>
 
         <dependency>
@@ -48,18 +59,6 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-        </dependency>
-
-
-        <dependency>
-            <groupId>com.postme</groupId>
-            <artifactId>coreAuthorisation</artifactId>
-            <version>1.0</version>
         </dependency>
 
         <dependency>

@@ -2,6 +2,8 @@ server:
   port: 8081
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: authService
   jpa:
@@ -21,3 +23,13 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
     instance:
       preferIpAddress: true
+
+postme:
+  app:
+    cookie:
+      jwtCookieName: auth
+      jwtSecret: generatedApiKey
+      jwtExpirationMs: 86400000
+      authPath: /
+  api:
+    version: v1

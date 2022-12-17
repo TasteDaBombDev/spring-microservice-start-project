@@ -2,8 +2,7 @@ package com.postme.coreAuthorisation.security;
 
 import com.postme.coreAuthorisation.security.jwt.AuthEntryPointJwt;
 import com.postme.coreAuthorisation.security.jwt.AuthTokenFilter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.postme.coreAuthorisation.security.services.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,21 +13,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.util.ArrayList;
-
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
-public class WebSecurityCoreConfigAuth extends WebSecurityConfigurerAdapter {
-
-    protected ArrayList<String> patternsToIgnore = new ArrayList<>();
-    private final Logger logger =
-            LoggerFactory.getLogger(WebSecurityCoreConfigAuth.class);
+public class WebSecurityCoreConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -62,20 +54,13 @@ public class WebSecurityCoreConfigAuth extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers(createPatternToIgnore()).permitAll()
+                .authorizeRequests().antMatchers(initPathMatchersList()).permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
-    private String[] createPatternToIgnore() {
-        setUpPatterns();
-        logger.info(patternsToIgnore.toString());
-        return patternsToIgnore.toArray(new String[]{});
-    }
-
-    protected void setUpPatterns() {
-        patternsToIgnore.add("/v1/auth/sign-in");
-        patternsToIgnore.add("/v1/auth/sign-up");
+    private String[] initPathMatchersList() {
+        return new String[]{"/v1/auth/sign-in", "/v1/auth/sign-up", "/v1/test/public"};
     }
 }

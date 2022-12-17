@@ -1,6 +1,5 @@
 package com.postme.authService.controllers;
 
-import com.postme.coreAuthorisation.CoreAuthorisationServiceApplication;
 import com.postme.coreAuthorisation.models.requests.LoginRequest;
 import com.postme.coreAuthorisation.models.requests.RegisterRequest;
 import com.postme.coreAuthorisation.services.CoreAuthorisationService;

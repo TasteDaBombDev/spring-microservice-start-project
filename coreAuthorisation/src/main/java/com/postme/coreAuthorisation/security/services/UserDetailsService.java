@@ -3,12 +3,11 @@ package com.postme.coreAuthorisation.security.services;
 import com.postme.coreAuthorisation.models.User;
 import com.postme.coreAuthorisation.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@Service("userDetailsService")
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
     @Autowired
     UserRepository userRepository;
