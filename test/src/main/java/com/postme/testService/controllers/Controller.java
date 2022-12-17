@@ -11,13 +11,13 @@ public class Controller {
 
     @GetMapping("/v1/test/admin/{name}")
     @Secured(UserRolesEnum.Constants.ROLE_ADMIN_VALUE)
-    public String helloAdmin(@PathVariable String name){
+    public String helloAdmin(@PathVariable String name) {
         return "hello admin: " + name;
     }
 
     @GetMapping("/v1/test/user/{name}")
     @Secured(UserRolesEnum.Constants.ROLE_ADMIN_VALUE)
-    public String helloUser(@PathVariable String name){
+    public String helloUser(@PathVariable String name) {
         return "hello user: " + name;
     }
 

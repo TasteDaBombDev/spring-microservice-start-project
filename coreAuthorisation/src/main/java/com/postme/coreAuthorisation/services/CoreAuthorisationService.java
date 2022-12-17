@@ -71,24 +71,10 @@ public class CoreAuthorisationService {
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()));
 
-        String role = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
-
-        if (role == null) {
-            Role userRole = roleRepository.findByName(UserRolesEnum.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(userRole);
-        } else {
-            if ("admin".equals(role)) {
-                Role adminRole = roleRepository.findByName(UserRolesEnum.ROLE_ADMIN)
-                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                roles.add(adminRole);
-            } else {
-                Role userRole = roleRepository.findByName(UserRolesEnum.ROLE_USER)
-                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                roles.add(userRole);
-            }
-        }
+        Role userRole = roleRepository.findByName(UserRolesEnum.ROLE_USER)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(userRole);
 
         user.setRoles(roles);
         userRepository.save(user);
