@@ -1,13 +1,11 @@
 package com.postme.authService.controllers;
 
-import com.postme.authService.models.enums.UserRolesEnum;
-import com.postme.authService.models.requests.LoginRequest;
-import com.postme.authService.models.requests.RegisterRequest;
-import com.postme.authService.services.AuthService;
+import com.postme.coreAuthorisation.CoreAuthorisationServiceApplication;
+import com.postme.coreAuthorisation.models.requests.LoginRequest;
+import com.postme.coreAuthorisation.models.requests.RegisterRequest;
+import com.postme.coreAuthorisation.services.CoreAuthorisationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,7 +16,7 @@ import javax.validation.Valid;
 public class AuthController {
 
     @Autowired
-    public AuthService authService;
+    public CoreAuthorisationService coreAuthorisationService;
 
     @GetMapping("/")
     public String onAppOpened() {
@@ -27,21 +25,21 @@ public class AuthController {
 
     @PostMapping("/sign-in")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-        return authService.login(loginRequest);
+        return coreAuthorisationService.login(loginRequest);
     }
 
     @PostMapping("/sign-up")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest signUpRequest) {
-        return authService.register(signUpRequest);
+        return coreAuthorisationService.register(signUpRequest);
     }
 
     @PostMapping("/sign-out")
     public ResponseEntity<?> logoutUser() {
-        return authService.logout();
+        return coreAuthorisationService.logout();
     }
 
     @GetMapping("/user")
-    public ResponseEntity<?> getUser() {
-        return authService.getUser();
+    public ResponseEntity<?> getUserDetails() {
+        return coreAuthorisationService.getUser();
     }
 }
