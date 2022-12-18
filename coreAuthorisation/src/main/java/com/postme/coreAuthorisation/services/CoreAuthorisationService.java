@@ -67,13 +67,10 @@ public class CoreAuthorisationService {
             return ResponseEntity.badRequest().body(new Response(false, null, "Error: Email is already in use!"));
         }
 
-        User user = new User(signUpRequest.getUsername(),
-                signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
+        User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()));
 
         Set<Role> roles = new HashSet<>();
-        Role userRole = roleRepository.findByName(UserRolesEnum.ROLE_USER)
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        Role userRole = roleRepository.findByName(UserRolesEnum.ROLE_USER).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
         roles.add(userRole);
 
         user.setRoles(roles);
@@ -84,15 +81,14 @@ public class CoreAuthorisationService {
 
     public ResponseEntity<?> logout() {
         ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .body(new Response(true, null, "You've been signed out!"));
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(new Response(true, null, "You've been signed out!"));
     }
 
     public ResponseEntity<?> getUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal instanceof UserDetails userDetails) {
-            return ResponseEntity.ok(new UserResource(true, userDetails, "User found"));
+            return ResponseEntity.ok(new UserResource(true, userDetails, "User data"));
         } else {
             return ResponseEntity.ok(new UserResource(false, null, "User not authenticated"));
         }
