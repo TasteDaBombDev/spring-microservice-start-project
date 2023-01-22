@@ -16,7 +16,7 @@ public class Controller {
     }
 
     @GetMapping("/v1/test/user/{name}")
-    @Secured(UserRolesEnum.Constants.ROLE_ADMIN_VALUE)
+    @Secured(UserRolesEnum.Constants.ROLE_USER_VALUE)
     public String helloUser(@PathVariable String name) {
         return "hello user: " + name;
     }
